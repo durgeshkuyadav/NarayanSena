@@ -24,9 +24,14 @@
                 <label for="email">Email address</label>
                 <input type="email" class="form-control" id="email" required>
             </div>
+            <!-- In your HTML form, update the mobile number input section: -->
             <div class="form-group">
                 <label for="mobile">Mobile Number</label>
-                <input type="text" class="form-control" id="mobile" required>
+                <input type="tel" class="form-control" id="mobile"
+                       pattern="[6-9][0-9]{9}"
+                       title="Please enter a valid 10-digit"
+                       required>
+                <div class="invalid-feedback">Please enter a valid 10-digit</div>
             </div>
             <div class="form-group">
                 <label for="city">City</label>

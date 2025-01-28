@@ -7,6 +7,8 @@ import org.uway.NarayanSena.dto.ReferralDTO;
 
 import org.uway.NarayanSena.entity.PaymentStatus;
 import org.uway.NarayanSena.entity.User;
+import org.uway.NarayanSena.exception.EmailAlreadyExistsException;
+import org.uway.NarayanSena.exception.InvalidReferrerIdException;
 import org.uway.NarayanSena.exception.UserNotFoundException;
 import org.uway.NarayanSena.repository.PaymentRepository;
 import org.uway.NarayanSena.repository.UserRepository;
@@ -34,13 +36,13 @@ public class UserService {
         this.paymentRepository = paymentRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
     @Transactional
     public User registerUser(UserDto userDto) {
         logger.info("Registering user with email: " + userDto.getEmail());
 
+        // Check if the email already exists
         if (userRepository.findByEmail(userDto.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists. Please use a different email.");
+            throw new EmailAlreadyExistsException("Email already exists. Please use a different email.");
         }
 
         User user = new User();
@@ -53,9 +55,10 @@ public class UserService {
         String referralId = generateReferralId();
         user.setReferralId(referralId);
 
+        // Check if the referral ID is valid
         if (userDto.getReferrerId() != null && !userDto.getReferrerId().isEmpty()) {
             User referrer = userRepository.findByReferralId(userDto.getReferrerId())
-                    .orElseThrow(() -> new RuntimeException("Invalid referrer ID"));
+                    .orElseThrow(() -> new InvalidReferrerIdException("Invalid referrer ID"));
             user.setReferrer(referrer);
             referrer.getReferredUsers().add(user);
         }
@@ -76,7 +79,7 @@ public class UserService {
         return referralId;
     }
 
-    public User loginUser(String email, String password, PasswordEncoder passwordEncoder) {
+        public User loginUser(String email, String password, PasswordEncoder passwordEncoder) {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
