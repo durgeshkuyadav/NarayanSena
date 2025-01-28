@@ -1,0 +1,40 @@
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: payment_orders
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3307:3306" # Changed port mapping to avoid conflict
+    volumes:
+      - db_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: journalapp-backend
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/payment_orders?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    image: journalapp-frontend
+    ports:
+      - "8080:80" # Changed port mapping to avoid conflict
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
