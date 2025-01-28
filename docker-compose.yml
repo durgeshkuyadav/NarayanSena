@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile
     image: journalapp-backend
     ports:
-      - "9090:9090"
+      - "9095:9095"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/payment_orders?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
@@ -32,7 +32,7 @@ services:
       dockerfile: Dockerfile.frontend
     image: journalapp-frontend
     ports:
-      - "8080:80" # Changed port mapping to avoid conflict
+      - "8081:80" # Changed port mapping to avoid conflict
     depends_on:
       - backend
 

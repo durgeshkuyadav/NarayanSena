@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/journalApp-0.0.1-SNAPSHOT.jar /app/application.jar
 
 # Make port 9090 available to the world outside this container
-EXPOSE 9090
+EXPOSE 9095
 
 # Run the jar file
 ENTRYPOINT ["java", "-jar", "application.jar"]
