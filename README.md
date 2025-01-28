@@ -85,6 +85,6 @@ For any inquiries, please contact:
 
 Email: contact@myapp.com
 
-Location: 123 Main Street, City, Country
+Location: 123 Main Street, City Gurugram, Country india
 
-Phone: +1 123-456-7890
+Phone: +91 8090123604
