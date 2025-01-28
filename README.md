@@ -24,7 +24,7 @@ How to Run
 Clone the Repository:
 
 sh
-git clone https://github.com/your-repo/profile-management-system.git
+git clone https://github.com/durgeshkuyadav/NarayanSena
 Backend Setup:
 
 Navigate to the backend directory and set up the Spring Boot application.
