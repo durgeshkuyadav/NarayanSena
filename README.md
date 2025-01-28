@@ -58,7 +58,7 @@ Contributing
 Fork the Repository:
 
 sh
-git fork https://github.com/your-repo/profile-management-system.git
+git fork https://github.com/durgeshkuyadav/NarayanSena
 Create a Branch:
 
 sh
