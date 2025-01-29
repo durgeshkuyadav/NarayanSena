@@ -1,40 +1,46 @@
-services:
-  db:
-    image: mysql:latest
-    container_name: mysql-container
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: payment_orders
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-    ports:
-      - "3307:3306" # Changed port mapping to avoid conflict
-    volumes:
-      - db_data:/var/lib/mysql
 
+services:
+  # MySQL Database Service
+  database:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Use this to set the root password
+      MYSQL_DATABASE: payment_orders
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  # Backend Service
   backend:
     build:
       context: .
       dockerfile: Dockerfile
     image: journalapp-backend
     ports:
-      - "9095:9095"
+      - "9090:9090"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/payment_orders?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/payment_orders?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     depends_on:
-      - db
+      - database
+    command: /app/wait-for-it.sh database:3306 --timeout=30 --strict && java -jar /app/application.jar
 
+
+
+
+  # Frontend Service
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
     image: journalapp-frontend
     ports:
-      - "8081:80" # Changed port mapping to avoid conflict
+      - "8081:80"  # Serves frontend via NGINX
     depends_on:
       - backend
 
+# Docker volume for MySQL data persistence
 volumes:
-  db_data:
+  mysql_data:
