@@ -19,9 +19,7 @@ import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = {"http://localhost:9090", "http://localhost:63342", "http://127.0.0.1:8000"})
 public class UserController {
-
     private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     @Autowired
@@ -38,11 +36,12 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> registerUser(@RequestBody UserDto userDto) {
         logger.info("Received registration request for email: " + userDto.getEmail());
-        userService.registerUser(userDto); // Let the GlobalExceptionHandler handle exceptions
+        userService.registerUser(userDto);
         Map<String, String> response = new HashMap<>();
         response.put("message", "User registered successfully.");
         return ResponseEntity.ok(response);
     }
+
     @GetMapping("/check-referrer/{referrerId}")
     public ResponseEntity<Map<String, String>> checkReferrer(@PathVariable String referrerId) {
         logger.info("Checking referrer ID: " + referrerId);
@@ -58,8 +57,7 @@ public class UserController {
         }
     }
 
-
-        @PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody LoginDto loginDto) {
         logger.info("Received login request: " + loginDto);
         User user = userService.loginUser(loginDto.getEmail(), loginDto.getPassword(), passwordEncoder);
@@ -72,7 +70,6 @@ public class UserController {
         response.put("city", user.getCity());
         response.put("mobileNumber", user.getMobileNumber());
         response.put("referrer", user.getReferrer() != null ? user.getReferrer().getFullName() : "No referrer");
-
         response.put("referralId", user.getReferralId());
         return ResponseEntity.ok(response);
     }
@@ -80,11 +77,7 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserDetails(@PathVariable long userId) {
         UserDetailsDto userDetails = userService.getUserDetails(userId);
-        if (!userDetails.isPaymentComplete()) {
-            userDetails.setPaymentStatus("Payment Pending");
-        } else {
-            userDetails.setPaymentStatus("Payment Done");
-        }
+        userDetails.setPaymentStatus(userDetails.isPaymentComplete() ? "Payment Done" : "Payment Pending");
         return ResponseEntity.ok(userDetails);
     }
 }

@@ -12,15 +12,12 @@ import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/payment")
-@CrossOrigin(origins = {"http://localhost:9090", "http://localhost:63342", "http://127.0.0.1:8000"})
 public class PaymentController {
-
     private static final Logger logger = Logger.getLogger(PaymentController.class.getName());
 
     @Autowired
     private PaymentService paymentService;
 
-    // Endpoint to create a payment
     @PostMapping("/create")
     public ResponseEntity<String> createPayment(@RequestBody PaymentDto paymentDto, @RequestParam long userId) {
         logger.info("Received payment request: " + paymentDto + " for userId: " + userId);
@@ -28,7 +25,6 @@ public class PaymentController {
         return ResponseEntity.ok(paymentResult);
     }
 
-    // Endpoint to update the payment status
     @PostMapping("/update")
     public ResponseEntity<String> updatePayment(@RequestParam String orderId, @RequestParam String paymentId, @RequestParam String status) {
         try {

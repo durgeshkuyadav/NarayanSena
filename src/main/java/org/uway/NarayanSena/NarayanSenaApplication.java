@@ -19,13 +19,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 		ProjectInfoAutoConfiguration.class
 })
 @EnableTransactionManagement
-public class JournalApplication {
+public class NarayanSenaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JournalApplication.class, args);
-
-		// After the application has started, open the home page
-		//openHomePage();
+		SpringApplication.run(NarayanSenaApplication.class, args);
 	}
 
 

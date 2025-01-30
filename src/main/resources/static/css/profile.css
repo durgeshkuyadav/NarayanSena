@@ -29,6 +29,10 @@
     position: relative;
     padding-left: 30px;
 }
+ .footer {
+            height: 60px;
+            flex-shrink: 0;
+   }
 
 .referral-node {
     margin: 15px 0;
