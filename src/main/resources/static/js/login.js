@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('loginPassword').value.trim();
 
             try {
-                const response = await fetch('http://localhost:9090/api/users/login', {
+                const response = await fetch('http://localhost:8090/api/users/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password }),

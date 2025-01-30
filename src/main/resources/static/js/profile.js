@@ -15,7 +15,7 @@ function getQueryParam(param) {
 
 async function fetchUserDetails(userId) {
     try {
-        const response = await fetch(`http://localhost:9090/api/users/${userId}`, {
+        const response = await fetch(`http://localhost:8090/api/users/${userId}`, {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include'

@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const amount = document.getElementById('amount').value;
 
             try {
-                const response = await fetch('http://localhost:9090/api/payment/create?userId=' + userId, {
+                const response = await fetch('http://localhost:8090/api/payment/create?userId=' + userId, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 console.log('Stored payment details:', storedDetails); // Verify data in localStorage
 
                                 // Payment update in the backend after success
-                                const updateResponse = await fetch('http://localhost:9090/api/payment/update', {
+                                const updateResponse = await fetch('http://localhost:8090/api/payment/update', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json'

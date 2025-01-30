@@ -33,7 +33,7 @@ form.addEventListener('submit', async (e) => {
     // Check referrer ID if provided
     if (userDto.referrerId) {
         try {
-            const checkReferrer = await fetch(`http://localhost:9090/api/users/check-referrer/${userDto.referrerId}`);
+            const checkReferrer = await fetch(`http://localhost:8090/api/users/check-referrer/${userDto.referrerId}`);
             if (!checkReferrer.ok) {
                 referrerInput.classList.add('is-invalid');
                 responseMessage.innerHTML = `<p class="text-danger">The provided Referrer ID does not exist.</p>`;
@@ -48,7 +48,7 @@ form.addEventListener('submit', async (e) => {
 
     // Submit registration
     try {
-        const response = await fetch('http://localhost:9090/api/users/register', {
+        const response = await fetch('http://localhost:8090/api/users/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userDto),
@@ -86,7 +86,7 @@ mobileInput.addEventListener('input', () => {
 referrerInput.addEventListener('blur', async () => {
     if (referrerInput.value.trim()) {
         try {
-            const response = await fetch(`http://localhost:9090/api/users/check-referrer/${referrerInput.value.trim()}`);
+            const response = await fetch(`http://localhost:8090/api/users/check-referrer/${referrerInput.value.trim()}`);
             const data = await response.json();
             if (response.ok) {
                 referrerInput.classList.add('is-valid');
