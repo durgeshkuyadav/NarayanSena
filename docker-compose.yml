@@ -1,10 +1,11 @@
+version: "3.8"
 
 services:
   # MySQL Database Service
   database:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: root  # Use this to set the root password
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: payment_orders
     ports:
       - "3307:3306"
@@ -16,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: journalapp-backend
+    image: narayansena-backend
     ports:
       - "9090:9090"
     environment:
@@ -25,17 +26,14 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
     depends_on:
       - database
-    command: /app/wait-for-it.sh database:3306 --timeout=30 --strict && java -jar /app/application.jar
-
-
-
+    command: /app/wait-for-it.sh database:3306 --timeout=30 --strict -- java -jar /app/application.jar
 
   # Frontend Service
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    image: journalapp-frontend
+    image: narayansena-frontend
     ports:
       - "8081:80"  # Serves frontend via NGINX
     depends_on:

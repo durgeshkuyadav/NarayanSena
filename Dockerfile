@@ -1,18 +1,18 @@
-# Use an official OpenJDK runtime as a base image
+# Use OpenJDK 17 as the base image
 FROM openjdk:17-jdk-slim
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy the Spring Boot JAR file
-COPY target/journalApp-0.0.1-SNAPSHOT.jar /app/application.jar
+# Copy the built JAR file
+COPY target/NarayanSena-0.0.1-SNAPSHOT.jar application.jar
 
-# Copy wait-for-it.sh and make it executable
-COPY wait-for-it.sh /app/wait-for-it.sh
-RUN chmod +x /app/wait-for-it.sh
+# Copy the wait-for-it script
+COPY wait-for-it.sh wait-for-it.sh
+RUN chmod +x wait-for-it.sh
 
-# Expose backend port 9090 (matching your application.properties)
+# Expose the port
 EXPOSE 9090
 
-# Run the Spring Boot application with the wait-for-it.sh script
-ENTRYPOINT ["/app/wait-for-it.sh", "database:3306", "--timeout=30", "--", "java", "-jar", "/app/application.jar"]
+# Command to run the app
+CMD ["/app/wait-for-it.sh", "database:3306", "--timeout=30", "--strict", "--", "java", "-jar", "/app/application.jar"]
